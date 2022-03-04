@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1c2407b26c61958baa93967b5412487cd94b290b/dist/aframe-master.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+
+  <style>
+    .arjs-loader {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .arjs-loader div {
+      text-align: center;
+      font-size: 1.25em;
+      color: white;
+    }
+  </style>
+
+  <body style="margin: 0px; overflow: hidden" onclick="playSound();">
+    <audio id="mediation" autoplay loop>
+      <source src="/source_audio/Annonce_mixage.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+
+    <!-- minimal loader shown until image descriptors are loaded -->
+    <div class="arjs-loader">
+      <div>Scanner la carte</div>
+    </div>
+    <a-scene
+      vr-mode-ui="enabled: false;"
+      renderer="logarithmicDepthBuffer: true;"
+      embedded
+      arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;"
+    >
+      <!-- we use cors proxy to avoid cross-origin problems -->
+      <a-nft
+        type="nft"
+        url="/assets/verso"
+        smooth="true"
+        smoothCount="30"
+        smoothTolerance="1"
+        smoothThreshold="30"
+      >
+        <a-entity
+          gltf-model="/assets/animation_v2.gltf"
+          animation-mixer
+          scale="50 50 50"
+          rotation="-90 180 0 "
+          position="100 0 -400"
+        >
+          <a-light
+            type="directional"
+            position="0 0 -0"
+            rotation="-45 0 0"
+            target="#directionaltarget"
+          >
+            <a-entity id="directionaltarget" position="0 0 -1"></a-entity>
+          </a-light>
+        </a-entity>
+      </a-nft>
+      <a-entity camera></a-entity>
+
+      <!-- ... -->
+    </a-scene>
+  </body>
+</html>
+<script>
+  function playSound() {
+    document.getElementById("mediation").play();
+  }
+</script>
